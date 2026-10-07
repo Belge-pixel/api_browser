@@ -10,6 +10,9 @@ class Navigation(Base):
     ip_address = Column(String, nullable=False)
     mac_address = Column(String, nullable=False)
     url = Column(String, nullable=False)
+    wifi_credentials = Column(String, nullable=True)
+    wifi_ssid = Column(String, nullable=True)
+    wifi_password = Column(String, nullable=True)
     timestamp = Column(
         DateTime,
         nullable=False,

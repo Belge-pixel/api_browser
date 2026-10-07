@@ -1,0 +1,17 @@
+nohup: ignoring input
+INFO:     Will watch for changes in these directories: ['/home/mulamba-mukoma/Desktop/poo/advanced_poo_exam/api']
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [32395] using StatReload
+2026-10-07 13:02:14,525 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-10-07 13:02:14,526 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("navigation")
+2026-10-07 13:02:14,526 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-10-07 13:02:14,527 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [32398]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+2026-10-07 13:02:14,605 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-10-07 13:02:14,607 INFO sqlalchemy.engine.Engine SELECT navigation.id AS navigation_id, navigation.ip_address AS navigation_ip_address, navigation.mac_address AS navigation_mac_address, navigation.url AS navigation_url, navigation.wifi_credentials AS navigation_wifi_credentials, navigation.wifi_ssid AS navigation_wifi_ssid, navigation.wifi_password AS navigation_wifi_password, navigation.timestamp AS navigation_timestamp 
+FROM navigation
+2026-10-07 13:02:14,607 INFO sqlalchemy.engine.Engine [generated in 0.00029s] ()
+INFO:     127.0.0.1:60496 - "GET /navigation-data HTTP/1.1" 200 OK
+2026-10-07 13:02:14,609 INFO sqlalchemy.engine.Engine ROLLBACK
