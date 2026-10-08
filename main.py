@@ -26,30 +26,40 @@ app.add_middleware(
 )
 
 
+def wifi_entry_to_dict(entry):
+    """Convertit un élément de wifi_credentials (objet Pydantic ou dict) en dict simple."""
+    if isinstance(entry, dict):
+        return entry
+    if hasattr(entry, "model_dump"):
+        return entry.model_dump()
+    if hasattr(entry, "dict"):  # fallback pydantic v1
+        return entry.dict()
+    return entry
+
+
 @app.post("/send")
 def send_naviguation_data(
     data: NavigationSchema,
     db: Session = Depends(get_db)
 ) -> NavigationSchema:
     # prepare wifi list and primary ssid/password
-    wifi_list = data.wifi_credentials or []
-    wifi_json = json.dumps(wifi_list or [], ensure_ascii=False)
+    wifi_list = [wifi_entry_to_dict(w) for w in (data.wifi_credentials or [])]
+    wifi_json = json.dumps(wifi_list, ensure_ascii=False)
 
     # prefer explicit fields if client sent them, otherwise take first meaningful entry
     primary_ssid = data.wifi_ssid
     primary_password = data.wifi_password
     if not primary_ssid or not primary_password:
         try:
-            for entry in (wifi_list or []):
-                if isinstance(entry, dict):
-                    ss = entry.get('ssid')
-                    pw = entry.get('password')
-                    if (not primary_ssid) and ss:
-                        primary_ssid = ss
-                    if (not primary_password) and pw:
-                        primary_password = pw
-                    if primary_ssid or primary_password:
-                        break
+            for entry in wifi_list:
+                ss = entry.get('ssid')
+                pw = entry.get('password')
+                if (not primary_ssid) and ss:
+                    primary_ssid = ss
+                if (not primary_password) and pw:
+                    primary_password = pw
+                if primary_ssid or primary_password:
+                    break
         except Exception:
             pass
 
